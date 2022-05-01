@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: min-kang <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 17:33:35 by min-kang          #+#    #+#             */
-/*   Updated: 2021/10/31 19:03:31 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/05/01 20:15:27 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,33 @@ static int	index_count(char const *s, char c)
 	return (count);
 }
 
-char	**ft_split(char const *s, char c)
+static char	*ft_substr(char *s, int start, int len)
+{
+	int		i;
+	char	*res;
+
+	if (!s)
+		return (NULL);
+	if (ft_strlen(s + start) < len)
+		len = ft_strlen(s + start);
+	if (ft_strlen(s) <= start)
+		return (ft_strdup(""));
+	res = ft_calloc(len + 1, sizeof(char));
+	if (!res)
+		return (NULL);
+	i = 0;
+	while (s[start + i] && i < len)
+	{
+		res[i] = (char) s[start + i];
+		i++;
+	}
+	return (res);
+}
+
+char	**ft_split(char *s, char c)
 {
 	char		**result;
-	char const	*start;
+	char 		*start;
 	int			i;
 	int			len;
 

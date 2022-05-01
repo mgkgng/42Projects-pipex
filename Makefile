@@ -1,10 +1,8 @@
 SRCS =	srcs/pipex.c			\
 		srcs/pipex_utils.c		\
 
-BSRCS =	bonus/main_bonus.c			\
-		bonus/pipex_bonus.c			\
-		bonus/pipex_utils_bonus.c	\
-		bonus/path_bonus.c
+BSRCS =	bonus/pipex_bonus.c			\
+		bonus/pipex_utils_bonus.c
 
 ifndef WITH_BONUS
 	OBJS = $(SRCS:.c=.o)
@@ -21,7 +19,7 @@ INCLUDE = -I ./includes/
 LIB_PATH = ./libft/
 
 %.o :	%.c
-		gcc -o $@ -c $< $(CFLAGS)
+		gcc -o $@ -c $< $(CFLAGS) ${INCLUDE}
 
 all : $(NAME)
 

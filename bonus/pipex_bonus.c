@@ -6,7 +6,7 @@
 /*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/25 18:12:33 by min-kang          #+#    #+#             */
-/*   Updated: 2022/04/20 21:56:06 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/05/01 20:32:41 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	pipex_in_loop(t_pipex pipex, int *fd, int i)
 	close(fd[0]);
 	close(fd[1]);
 	execve(get_cmdpath(pipex.args[i][0], pipex.paths), pipex.args[i], pipex.envp);
-	ft_putendl_fd("Error: execve ddidn't work expectedly.", STDERR_FILENO);
+	ft_putendl_fd("Error: execve didn't work expectedly.", STDERR_FILENO);
 	exit(EXIT_FAILURE);
 }
 
@@ -82,4 +82,14 @@ int	ft_pipex(t_pipex pipex)
 		}
 	}
 	return (terminate(pipex));
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	if (argc < 5)
+	{
+		ft_putendl_fd("Wrong number of arguments.", STDERR_FILENO);
+		exit(EXIT_FAILURE);
+	}
+	return (ft_pipex(parse(argc, argv, envp)));
 }

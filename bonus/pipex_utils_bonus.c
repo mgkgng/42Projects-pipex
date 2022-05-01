@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   pipex_utils_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/11 11:48:05 by min-kang          #+#    #+#             */
-/*   Updated: 2022/04/20 12:57:54 by min-kang         ###   ########.fr       */
+/*   Created: 2022/05/01 20:21:05 by min-kang          #+#    #+#             */
+/*   Updated: 2022/05/01 20:25:31 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/pipex_bonus.h"
+#include "pipex_bonus.h"
 
 char	***get_args(int argc, char **argv)
 {
-	char	**res;
+	char	***res;
 	int		i;
 	int		j;
 	int		size;
@@ -34,6 +34,39 @@ char	***get_args(int argc, char **argv)
 	return (res);
 }
 
+char	**get_paths(char **envp)
+{
+	int		i;
+	char	**res;
+
+	i = 0;
+	while (ft_strncmp(envp[i], "PATH:", 5))
+		i++;
+	res = ft_split(envp[i] + 5, ':');
+	return (res);
+}
+
+char	*get_cmdpath(char *s, char **paths)
+{
+	char	*cmd;
+	int		i;
+
+    if (!access(s, F_OK))
+        return (s);
+	i = -1;
+	while (paths[++i])
+	{
+		cmd = NULL;
+		cmd = ft_strcat(paths[i], "/");
+		cmd = ft_strcat(cmd, s);
+		if (!access(cmd, F_OK))
+			return (cmd);
+		else
+			free(cmd);
+	}
+	return (NULL);
+}
+
 t_pipex	parse(int argc, char **argv, char **envp)
 {
 	t_pipex	res;
@@ -46,4 +79,5 @@ t_pipex	parse(int argc, char **argv, char **envp)
 	res.args = get_args(argc, argv);
 	res.paths = get_paths(envp);
 	res.envp = envp;
+	return (res);
 }

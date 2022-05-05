@@ -6,7 +6,7 @@
 /*   By: min-kang <minguk.gaang@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/25 18:12:33 by min-kang          #+#    #+#             */
-/*   Updated: 2022/05/05 16:54:34 by min-kang         ###   ########.fr       */
+/*   Updated: 2022/05/05 22:27:01 by min-kang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,15 @@ int	heredoc(char *limiter)
 	int		fd;
 
 	r = NULL;
-	while (1)
+	line = get_next_line(0);
+	while (line)
 	{
-		line = get_next_line(STDIN_FILENO);
 		if (ft_strlen(limiter) == ft_strlen(line) - 1
 			&& !ft_strncmp(limiter, line, ft_strlen(limiter)))
 			break ;
-		ft_strcat(r, line);
+		r = ft_strcat(r, line);
 		free(line);
+		line = get_next_line(0);
 	}
 	fd = open("heredoc", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	write(fd, r, sizeof(r));
